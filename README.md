@@ -1,6 +1,6 @@
 # TODO list
 
-Django project to manage a list of tasks you need to complete or things that you want to do
+Django project  
 
 ## Installing / Getting started
 
