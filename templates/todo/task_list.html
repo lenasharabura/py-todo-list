@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>
+        TODO list
+        <a href="{% url 'todo:task-create' %}" class="badge badge-pill badge-secondary float-right">Add task</a>
+    </h1>
+
+    {% if task_list %}
+        <ul class="list-group list-group-flush">
+            {% for task in task_list %}
+
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <h5>
+                                        {{ task.content }}
+                                        {% if task.done %}
+                                            <span class="badge badge-pill badge-success">Done</span>
+                                        {% else %}
+                                            <span class="badge badge-pill badge-danger">Not done</span>
+                                        {% endif %}
+                                    </h5>
+                                </li>
+                                <li><small>Created: {{ task.datetime }}</small></li>
+                            {% if task.deadline %}
+                                <li><small>Deadline: {{ task.deadline }}</small></li>
+                            {% endif %}
+                                <li>
+                                    <p class="text-muted">Tags:
+                                        {% for tag in task.tags.all %}
+                                            <span class="badge badge-pill badge-secondary">{{ tag.name }}</span>
+                                        {% endfor %}
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-1">
+
+                            <a href="{% url 'todo:complete-or-undo' pk=task.id %}"
+                               class="badge badge-pill {% if task.done %}badge-secondary">Undo{% else %}
+                                   badge-success">Complete{% endif %}</a><br>
+                            <a href="{% url 'todo:task-update' pk=task.id %}"
+                               class="badge badge-pill badge-primary">Edit</a><br>
+                            <a href="{% url 'todo:task-delete' pk=task.id %}" class="badge badge-pill badge-danger">Delete</a>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks yet</p>
+
+    {% endif %}
+
+{% endblock %}
